@@ -8,6 +8,5 @@ nameInput.addEventListener("input", (e) => {
       ? el.toLowerCase()
       : el.charAt(0).toUpperCase() + el.slice(1).toLowerCase();
   });
-  console.log(maskText);
   e.target.value = maskText.join(" ");
 });
