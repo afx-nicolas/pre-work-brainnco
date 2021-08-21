@@ -33,13 +33,16 @@ form section.name-wrapper {
   margin: 20px 0 0;
 }
 
-form section.name-wrapper > input {
-  width: min(250px, 100%);
-  margin: 10px 0 0;
-  background-color: transparent;
+form input {
+  background-color: #fff;
   border: 2px solid #888;
   border-radius: 20px;
   padding: 6px 12px;
+}
+
+form section.name-wrapper > input {
+  width: min(250px, 100%);
+  margin: 10px 0 0;
 }
 
 .exercise:not(:first-child) {
@@ -104,4 +107,99 @@ div.container {
 
 .box.purple {
   background-color: #8000ff;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.field {
+  display: flex;
+  width: 49%;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.field label {
+  margin-bottom: 5px;
+}
+
+input[type="color"] {
+  width: 50px;
+  height: 30px;
+  border: 0;
+  padding: 0;
+}
+
+button.add-car {
+  width: min(200px, 100%);
+  height: 40px;
+  color: #fff;
+  background-color: #a427df;
+  border: 0;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 700;
+  transition-duration: 0.3s;
+  margin-bottom: 20px;
+}
+
+button.add-car:hover {
+  filter: brightness(1.15);
+}
+
+table.car-table {
+  border-collapse: separate;
+  border-spacing: 2px 4px;
+}
+
+table.car-table thead th {
+  color: #fff;
+  background-color: #a427df;
+  padding: 6px 0;
+}
+
+table.car-table thead th:first-child {
+  border-radius: 16px 0 0 0;
+}
+
+table.car-table thead th:last-child {
+  border-radius: 0 16px 0 0;
+}
+
+table.car-table tbody {
+  background-color: #fff;
+}
+
+table.car-table tbody td {
+  text-align: center;
+  padding: 5px;
+}
+
+table.car-table tbody td:first-child,
+table.car-table thead th:first-child {
+  width: 100px;
+}
+
+table.car-table tbody td:last-child,
+table.car-table thead th:last-child {
+  width: 100px;
+}
+
+img.car-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+div.car-color {
+  width: 64px;
+  height: 64px;
+  background-color: blue;
+  border-radius: 16px;
+  margin: 0 auto;
 }
