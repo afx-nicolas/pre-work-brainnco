@@ -41,8 +41,6 @@ colors.forEach((color) => {
 
 form.appendChild(select);
 form.insertAdjacentElement("afterend", colorContainer);
-console.log(select);
-console.log(colors);
 
 select.addEventListener("change", (e) => {
   colorContainer.innerHTML = "";
