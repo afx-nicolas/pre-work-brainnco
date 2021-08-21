@@ -1,5 +1,4 @@
 const nameInput = document.querySelector('[data-js="name"]');
-const selectColors = document.querySelector('[data-js="colors"]');
 
 // Exercise 01
 
@@ -16,27 +15,53 @@ nameInput.addEventListener("input", (e) => {
 
 // Exercise 02
 
-function manipulateChilds(element) {
-  const divWrapper = document.querySelector('[data-js="container"]');
-  const value = element.value;
-  const divBox = document.createElement("div");
-  divBox.setAttribute("class", `box ${value}`);
+// const selectColors = document.querySelector('[data-js="colors"]');
 
-  const currentColor = document.querySelector(`.${value}`);
-  const elementNotExists = !currentColor;
-  // Se o elemento estiver selecionado
-  if (element.selected) {
-    // Se o elemento não existir, o elemento será criado
-    if (elementNotExists) divWrapper.appendChild(divBox);
-  }
-  // Se o elemento estiver deselecionado
-  else {
-    // Se o elemento existe, o elemento será removido
-    if (!elementNotExists) divWrapper.removeChild(currentColor);
-  }
+function $query(selector) {
+  return document.querySelector(`[data-js="${selector}"]`);
 }
 
-selectColors.addEventListener("change", (e) => {
-  const options = [...e.target.options];
-  options.map((el) => manipulateChilds(el));
+function $create(el, attr = false, value = "") {
+  const element = document.createElement(`${el}`);
+
+  attr ? element.setAttribute(attr, value) : element;
+  return element;
+}
+
+const form = $query("form");
+const select = $create("select", "multiple");
+const colors = ["red", "yellow", "green", "blue", "purple"];
+const colorContainer = $create("div", "data-js", "colors");
+colorContainer.style.display = "flex";
+
+colors.forEach((color) => {
+  const option = createOption(color);
+  select.appendChild(option);
 });
+
+form.appendChild(select);
+form.insertAdjacentElement("afterend", colorContainer);
+console.log(select);
+console.log(colors);
+
+select.addEventListener("change", (e) => {
+  colorContainer.innerHTML = "";
+  Array.from(e.target.selectedOptions).forEach((option) => {
+    const div = createDivColor(option.value);
+    colorContainer.appendChild(div);
+  });
+});
+
+function createOption(color) {
+  const option = $create("option", "value", color);
+  option.textContent = color;
+  return option;
+}
+
+function createDivColor(value) {
+  const div = $create("div");
+  div.style.width = "100px";
+  div.style.height = "100px";
+  div.style.backgroundColor = value;
+  return div;
+}
