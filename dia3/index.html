@@ -7,10 +7,34 @@
     <title>Dia 3</title>
   </head>
   <body>
-    <form>
-      <label for="name">Nome</label>
-      <input type="text" name="name" id="name" data-js="name" />
-    </form>
+    <main class="content">
+      <section class="exercise">
+        <h2>Exercício 01</h2>
+        <form>
+          <section class="name-wrapper">
+            <label for="name">Nome</label>
+            <input type="text" name="name" id="name" data-js="name" />
+          </section>
+        </form>
+      </section>
+      <section class="exercise">
+        <h2>Exercício 02</h2>
+        <div class="exercise-content">
+          <form>
+            <section class="select-wrapper">
+              <select multiple size="5" data-js="colors">
+                <option value="red">Red</option>
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="purple">Purple</option>
+              </select>
+            </section>
+          </form>
+          <div class="container" data-js="container"></div>
+        </div>
+      </section>
+    </main>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
