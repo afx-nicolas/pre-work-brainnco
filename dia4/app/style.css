@@ -7,6 +7,14 @@ body {
   margin-top: 60px;
 }
 
+.hide {
+  display: none;
+}
+
+.error {
+  color: #db4444;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -80,4 +88,7 @@ table.car-table tr td {
 
 table.car-table tr td img {
   width: 128px;
+  height: 128px;
+  object-fit: cover;
+  border-radius: 1rem;
 }
