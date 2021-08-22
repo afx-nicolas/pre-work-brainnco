@@ -6,9 +6,14 @@ function $create(el, attr = false, value = "") {
   return element;
 }
 
-function $query(el) {
+function $query(el, all = false) {
+  const elements = document.querySelectorAll(`[data-js="${el}"]`);
   const element = document.querySelector(`[data-js="${el}"]`);
-  return element;
+  if (all) {
+    return elements;
+  } else {
+    return element;
+  }
 }
 
 const url = "http://localhost:3333/cars";
@@ -34,8 +39,12 @@ const req = {
   },
 };
 
+function deleteCar(e) {
+  deletePlate(e.target.dataset.plate);
+}
+
 async function refreshTable() {
-  const cars = await getCars();
+  const cars = await get();
   tableBody.innerHTML = "";
 
   if (cars.length) {
@@ -45,32 +54,39 @@ async function refreshTable() {
         const td = elementTypes[element.type](element.value);
         tr.appendChild(td);
       });
+      const button = $create("button");
+      button.textContent = "Excluir";
+      button.dataset.plate = car[3].value;
+
+      button.addEventListener("click", (e) => deleteCar(e));
+
+      tr.appendChild(button);
       tableBody.appendChild(tr);
     });
   } else {
     tableBody.innerHTML = `
       <tr>
-        <td colspan="5"><h2>Nenhum carro encontrado.</h2></td>
+        <td colspan="6"><h2>Nenhum carro encontrado.</h2></td>
       <tr>
     `;
   }
 }
 
-function showMsg(msg) {
-  const errorText = $query("error");
-  if (msg.error) {
-    if (errorText.classList.contains("hide")) {
-      errorText.classList.remove("hide");
+function showMsg(error) {
+  const msgElement = $query("error");
+  if (error.error) {
+    msgElement.textContent = error.message;
+    if (msgElement.classList.contains("hide")) {
+      msgElement.classList.remove("hide");
     }
-    errorText.textContent = msg.message;
   } else {
-    if (!errorText.classList.contains("hide")) {
-      errorText.classList.add("hide");
+    if (!msgElement.classList.contains("hide")) {
+      msgElement.classList.add("hide");
     }
   }
 }
 
-async function getCars() {
+async function get() {
   const cars = fetch(url, req.get)
     .then((res) => res.json())
     .then((res) => res);
@@ -78,11 +94,25 @@ async function getCars() {
   return formatCar(await cars);
 }
 
-async function postCar(car) {
-  const result = fetch(url, req.post(car))
-    .then((response) => response.json())
-    .then((res) => showMsg(res));
+async function post(car) {
+  const res = await fetch(url, req.post(car)).then((response) =>
+    response.json()
+  );
 
+  showMsg(res);
+  refreshTable();
+}
+
+async function deletePlate(plate) {
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ plate: plate }),
+  });
+
+  showMsg(res);
   refreshTable();
 }
 
@@ -102,7 +132,6 @@ function formatCar(cars) {
 }
 
 const form = $query("car-form");
-const table = $query("table");
 const tableBody = $query("table-body");
 
 const elementTypes = {
@@ -110,6 +139,14 @@ const elementTypes = {
   text: createText,
   color: createColor,
 };
+
+// function createDelete() {
+//   const td = $create("td");
+//   const button = $create("button", "data-js", "delete");
+//   button.textContent = "Deletar";
+//   td.appendChild(button);
+//   return td;
+// }
 
 function createImage(value) {
   const td = $create("td");
@@ -126,10 +163,12 @@ function createText(value) {
 }
 
 function createColor(value) {
-  const td = $create("div");
-  td.style.width = "100%";
-  td.style.height = "128px";
-  td.style.backgroundColor = value;
+  const div = $create("div");
+  const td = $create("td");
+  div.style.width = "100%";
+  div.style.height = "128px";
+  div.style.backgroundColor = value;
+  td.appendChild(div);
   return td;
 }
 
@@ -150,7 +189,7 @@ form.addEventListener("submit", (e) => {
 
   form.reset();
   form.image.focus();
-  postCar(car);
+  post(car);
 });
 
 refreshTable();
