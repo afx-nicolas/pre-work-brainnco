@@ -51,6 +51,14 @@ function createColor(value: string) {
   return td;
 }
 
+type Car = {
+  image: string;
+  brandModel: string;
+  year: string;
+  plate: string;
+  color: string;
+};
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -63,7 +71,7 @@ form.addEventListener("submit", async (e) => {
   const getElement = getFormElement(target);
   const image = getElement("image");
 
-  const data = {
+  const data: Car = {
     image: image.value,
     brandModel: getElement("brand-model").value,
     year: getElement("year").value,
@@ -71,7 +79,7 @@ form.addEventListener("submit", async (e) => {
     color: getElement("color").value,
   };
 
-  const result = await post(url, data);
+  const result = await post<Car>(url, data);
 
   if (result.error) {
     console.log("deu erro na hora de cadastrar", result.message);
@@ -89,15 +97,7 @@ form.addEventListener("submit", async (e) => {
   image.focus();
 });
 
-type TableRowData = {
-  image: string;
-  brandModel: string;
-  year: string;
-  plate: string;
-  color: string;
-};
-
-function createTableRow(data: TableRowData) {
+function createTableRow(data: Car) {
   const elements = [
     { type: "image", value: { src: data.image, alt: data.brandModel } },
     { type: "text", value: data.brandModel },
@@ -140,6 +140,10 @@ function createTableRow(data: TableRowData) {
   table.appendChild(tr);
 }
 
+type DeleteBody = {
+  plate: string;
+};
+
 async function handleDelete(e: MouseEvent) {
   const button = e.target as HTMLButtonElement;
 
@@ -149,7 +153,7 @@ async function handleDelete(e: MouseEvent) {
 
   const plate = button.dataset.plate;
 
-  const result = await del(url, { plate });
+  const result = await del<DeleteBody>(url, { plate: plate ?? "" });
 
   if (result.error) {
     console.log("erro ao deletar", result.message);
