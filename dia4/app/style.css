@@ -62,22 +62,22 @@ button.add-car:hover {
   color: #555;
 }
 
-table {
+table.car-table {
   width: min(800px, 100%);
   border: 1px solid #aaa;
   margin: 30px auto 0;
 }
 
-table th,
-table td {
+table.car-table th,
+table.car-table td {
   border: 2px solid #ccc;
 }
 
-table tr td {
+table.car-table tr td {
   padding: 0.25rem;
   color: #333;
 }
 
-table tr td img {
+table.car-table tr td img {
   width: 128px;
 }
